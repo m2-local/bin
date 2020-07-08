@@ -1,0 +1,12 @@
+#!/bin/bash
+container_id=$($(dirname "$0")/dkr-id)
+
+# TODO figure out how we can pass arbitrary param through here - there's some bash syntax for it...
+echo "$@" | grep '\-it' &> /dev/null
+if [ $? -eq 0 ]; then
+    cmd=$(echo "$@" | sed 's/-it //')
+    dkr=$(which docker)
+    eval "$dkr exec -u www-data -it $container_id $cmd"
+else
+    docker exec -u www-data "$container_id" "$@"
+fi

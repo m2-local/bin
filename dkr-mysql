@@ -1,0 +1,7 @@
+#!/bin/bash
+. $(dirname "$0")/ini-parser.sh
+
+cfg.parser $(dirname "$0")/../config.ini
+
+cfg.section.docker
+$(dirname "$0")/dkr-exec -it mysql -u "$mysql_user" --password="$mysql_pw" -D "$mysql_db"

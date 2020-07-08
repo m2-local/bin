@@ -1,0 +1,6 @@
+#!/bin/bash
+# Connect to the docker instance
+
+# todo don't try to stop container if it isn't running
+
+docker stop $($(dirname "$0")/dkr-id)

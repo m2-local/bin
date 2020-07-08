@@ -1,0 +1,78 @@
+#!/bin/bash
+# launch the docker image with volume mapping to the code (yamaha directory)
+# and mysql directory.
+# TODO We need to map the media directory and other odds and ends
+. $(dirname "$0")/ini-parser.sh
+
+cfg.parser $(dirname "$0")/../config.ini
+
+#-----------------------------------------------
+# load the docker section
+#-----------------------------------------------
+cfg.section.docker
+dkr_image="$image"
+dkr_version="$version"
+dkr_sata_mount="$sata_mount"
+dkr_ssd_mount="$ssd_mount"
+dkr_sata_vol="$sata_vol"
+dkr_ssd_vol="$ssd_vol"
+dkr_mysql_db="$mysql_db"
+dkr_mysql_pw="$mysql_pw"
+dkr_mysql_user="$mysql_user"
+dkr_apache_root="$apache_root"
+
+#-----------------------------------------------
+# load the magento section
+#-----------------------------------------------
+cfg.section.magento
+magento_repository="$repository"
+
+#-----------------------------------------------
+# load the project section
+#-----------------------------------------------
+cfg.section.project
+project_name="$name"
+domain_name="$domain"
+
+# load the network section
+cfg.section.network
+network_http_port="$http_port"
+network_https_port="$https_port"
+network_mysql_port="$mysql_port"
+
+# todo logic for SSL port
+# todo logic for mysql port
+
+# container is already created and running, then bail
+container_id=$($(dirname "$0")/dkr-id)
+if [ $? -eq 0 ]; then
+    echo "container is already running, not doing anything"
+    exit 1
+fi
+
+container_id=$($(dirname "$0")/dkr-id -a)
+if [ $? -eq 0 ]; then
+    # container is already created, but just stopped, use docker start
+    echo "starting existing container"
+    docker start "$container_id"
+else
+    # container does not exist yet, create it using docker run
+    echo "creating container"
+    docker run \
+    -e "dkr_image=$dkr_image" \
+    -e "dkr_version=$dkr_version" \
+    -e "dkr_sata_mount=$dkr_sata_mount" \
+    -e "dkr_ssd_mount=$dkr_ssd_mount" \
+    -e "dkr_sata_vol=$dkr_sata_vol" \
+    -e "dkr_ssd_vol=$dkr_ssd_vol" \
+    -e "dkr_mysql_db=$dkr_mysql_db" \
+    -e "dkr_mysql_pw=$dkr_mysql_pw" \
+    -e "dkr_mysql_user=$dkr_mysql_user" \
+    -e "dkr_apache_root=$dkr_apache_root" \
+    -e "magento_repo=$magento_repository" \
+    -e "MYSQL_ADMIN_PASS=$dkr_mysql_pw" \
+    -e "DOMAIN_NAME=$domain_name" \
+    -p "$network_http_port:80" -p "$network_https_port:443" \
+    --name "$project_name" \
+    -v "${PWD}/$ssd_vol":/mnt/ssd -v "${PWD}/$sata_vol":/mnt/sata "${image}:${version}"
+fi

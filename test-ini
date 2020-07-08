@@ -1,0 +1,44 @@
+#!/bin/bash
+# load the ini parser
+. $(dirname "$0")/ini-parser.sh
+
+# parse the ini file
+cfg.parser $(dirname "$0")/../config.sample.ini
+
+#-----------------------------------------------
+# load the docker section
+#-----------------------------------------------
+cfg.section.docker
+echo '[docker]'
+echo "  image: $image"
+echo "  version: $version"
+echo "  sata_vol: $sata_vol"
+echo "  ssd_vol: $ssd_vol"
+echo "  apache_root: $apache_root"
+echo
+
+#-----------------------------------------------
+# load the magento section
+#-----------------------------------------------
+cfg.section.magento
+
+echo "[magento]"
+echo "  repository: $repository"
+echo
+
+#-----------------------------------------------
+# load the project section
+#-----------------------------------------------
+cfg.section.project
+
+# spit out a variable from the project section
+echo "[project]"
+echo "  name: $name"
+echo
+
+# load the network section
+cfg.section.network
+echo "[network]"
+echo "  http_port: $http_port"
+echo "  https_port: $https_port"
+echo "  mysql_port: $mysql_port"

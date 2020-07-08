@@ -1,0 +1,10 @@
+#!/bin/bash
+. $(dirname "$0")/ini-parser.sh
+
+cfg.parser $(dirname "$0")/../config.ini
+cfg.section.docker
+
+echo "building ${image}:${version}"
+
+docker build --build-arg ARG_DOCKER_USER_ID="${uid}" --build-arg ARG_DOCKER_USER_GID="$gid" \
+-t="${image}:${version}" -f ./1804/Dockerfile .

@@ -1,0 +1,9 @@
+#!/bin/bash
+# Execute an "env" file inside the environment
+# (scripts in the ~/home/env directory of the docker environment)
+. $(dirname "$0")/ini-parser.sh
+
+cfg.parser $(dirname "$0")/../config.ini
+
+cfg.section.docker
+$(dirname "$0")/dkr-exec /var/www/env/"$1" "$@"

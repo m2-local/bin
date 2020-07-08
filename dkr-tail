@@ -1,0 +1,5 @@
+#!/bin/bash
+container_id=$($(dirname "$0")/dkr-id)
+
+# todo handle different states
+docker logs -f "$container_id"

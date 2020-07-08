@@ -1,0 +1,16 @@
+#!/bin/bash
+# Connect to the docker instance
+container_id=$($(dirname "$0")/dkr-id)
+if [ $? -eq 0 ]; then
+    echo "not removing running container; use dkr-stop to stop it first"
+    exit 1
+fi
+
+container_id=$($(dirname "$0")/dkr-id -a)
+if [ $? -eq 0 ]; then
+    echo "removing container"
+    docker rm "$container_id"
+else
+    echo "no such container"
+    exit 2
+fi

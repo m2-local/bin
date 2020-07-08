@@ -1,0 +1,10 @@
+#!/bin/bash
+# Note you need to be logged into correct GCP account...
+. $(dirname "$0")/ini-parser.sh
+
+cfg.parser $(dirname "$0")/../config.ini
+cfg.section.docker
+
+echo "pushing ${image}:${version}"
+
+docker push "${image}:${version}"

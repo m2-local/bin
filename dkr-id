@@ -2,7 +2,7 @@
 # load the ini parser
 . $(dirname "$0")/ini-parser.sh
 
-cfg.parser $(dirname "$0")/../config.ini
+cfg.parser $(dirname "$0")/../dkr-config.ini
 cfg.section.project
 
 # determine if -a flag should be passed to docker ps

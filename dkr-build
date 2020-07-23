@@ -1,7 +1,7 @@
 #!/bin/bash
 . $(dirname "$0")/ini-parser.sh
 
-cfg.parser $(dirname "$0")/../config.ini
+cfg.parser $(dirname "$0")/../dkr-config.ini
 cfg.section.docker
 
 echo "building ${image}:${version}"

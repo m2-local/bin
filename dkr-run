@@ -4,7 +4,7 @@
 # TODO We need to map the media directory and other odds and ends
 . $(dirname "$0")/ini-parser.sh
 
-cfg.parser $(dirname "$0")/../config.ini
+cfg.parser $(dirname "$0")/../dkr-config.ini
 
 #-----------------------------------------------
 # load the docker section

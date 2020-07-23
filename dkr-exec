@@ -6,7 +6,13 @@ echo "$@" | grep '\-it' &> /dev/null
 if [ $? -eq 0 ]; then
     cmd=$(echo "$@" | sed 's/-it //')
     dkr=$(which docker)
-    eval "$dkr exec -u www-data -it $container_id $cmd"
+    echo "$@" | grep '\-h' &> /dev/null
+    if [ $? -eq 0 ]; then
+        cmd=$(echo "$@" | sed 's/-h //')
+        eval "$dkr exec -u www-data -it $container_id cd /var/www && /bin/bash && $cmd"
+    else
+        eval "$dkr exec -u www-data -it $container_id $cmd"
+    fi
 else
-    docker exec -u www-data "$container_id" "cd /var/www && bash -c $@"
+    docker exec -u www-data "$container_id" "$@"
 fi

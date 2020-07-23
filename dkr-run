@@ -14,12 +14,21 @@ dkr_image="$image"
 dkr_version="$version"
 dkr_sata_mount="$sata_mount"
 dkr_ssd_mount="$ssd_mount"
-dkr_sata_vol="$sata_vol"
-dkr_ssd_vol="$ssd_vol"
 dkr_mysql_db="$mysql_db"
 dkr_mysql_pw="$mysql_pw"
 dkr_mysql_user="$mysql_user"
 dkr_apache_root="$apache_root"
+
+if [ "$sata_vol" == 'pwd' ]; then
+    dkr_sata_vol="$(pwd)"
+else
+    dkr_sata_vol="$sata_vol"
+fi
+if [ "$ssd_vol" == 'pwd' ]; then
+    dkr_ssd_vol="$(pwd)"
+else
+    dkr_ssd_vol="$ssd_vol"
+fi
 
 #-----------------------------------------------
 # load the magento section

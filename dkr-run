@@ -83,5 +83,6 @@ else
     -e "DOMAIN_NAME=$domain_name" \
     -p "$network_http_port:80" -p "$network_https_port:443" \
     --name "$project_name" \
-    -v "${PWD}/$ssd_vol":/mnt/ssd -v "${PWD}/$sata_vol":/mnt/sata "${image}:${version}"
+    #-v "${PWD}/$ssd_vol":/mnt/ssd -v "${PWD}/$sata_vol":/mnt/sata "${image}:${version}"
+    -v "${PWD}":/var/www  "${image}:${version}"
 fi

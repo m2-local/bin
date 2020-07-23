@@ -1,0 +1,8 @@
+#!/bin/bash
+# Grab the latest docker image based on configuration
+. $(dirname "$0")/ini-parser.sh
+
+cfg.parser $(dirname "$0")/../dkr-config.ini
+
+cfg.section.docker
+docker pull "$image"

@@ -5,4 +5,4 @@
 cfg.parser $(dirname "$0")/../dkr-config.ini
 
 cfg.section.docker
-docker pull "$image"
+docker pull "$image":"$version"

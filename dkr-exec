@@ -8,5 +8,5 @@ if [ $? -eq 0 ]; then
     dkr=$(which docker)
     eval "$dkr exec -u www-data -it $container_id $cmd"
 else
-    docker exec -u www-data "$container_id" "$@"
+    docker exec -u www-data "$container_id" "cd /var/www && bash -c $@"
 fi

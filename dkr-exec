@@ -9,7 +9,7 @@ if [ $? -eq 0 ]; then
     echo "$@" | grep '\-h' &> /dev/null
     if [ $? -eq 0 ]; then
         cmd=$(echo "$@" | sed 's/-h //')
-        eval "$dkr exec -u www-data -it $container_id cd /var/www && /bin/bash && $cmd"
+        eval "$dkr exec -u www-data -it $container_id" sh -c "cd /var/www && /bin/bash && $cmd"
     else
         eval "$dkr exec -u www-data -it $container_id $cmd"
     fi

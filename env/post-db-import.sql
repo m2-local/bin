@@ -1,0 +1,2 @@
+UPDATE core_config_data SET value = REPLACE(value, 'https', 'http') WHERE path LIKE '%base_url%';
+UPDATE core_config_data SET value = REPLACE(value, 'UPSTREAM_DOMAIN_NAME', 'DOMAIN_NAME') WHERE path LIKE '%base_url%';

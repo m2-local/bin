@@ -42,6 +42,7 @@ magento_repository="$repository"
 cfg.section.project
 project_name="$name"
 domain_name="$domain"
+upstream_domain_name="$upstream_domain"
 
 # load the network section
 cfg.section.network
@@ -81,6 +82,7 @@ else
     -e "magento_repo=$magento_repository" \
     -e "MYSQL_ADMIN_PASS=$dkr_mysql_pw" \
     -e "DOMAIN_NAME=$domain_name" \
+    -e "UPSTREAM_DOMAIN_NAME=$upstream_domain_name" \
     -p "$network_http_port:80" -p "$network_https_port:443" \
     --name "$project_name" \
     -v "${PWD}":/var/www "${image}:${version}"

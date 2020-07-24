@@ -1,6 +1,6 @@
 #!/bin/bash
 # instead of di:compile, we run the grunt stack
-cd ~/magento && \
+cd ~ && \
 time composer install && \
 bin/magento setup:upgrade && \
 grunt exec && \

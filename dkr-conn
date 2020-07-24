@@ -9,4 +9,4 @@ fi
 
 # TODO Make this smarter so we don't try to connect to an instance that doesn't exist or isn't running
 # @see dkr-run
-./dkr-exec /bin/bash
+$(dirname "$0")/dkr-exec /bin/bash

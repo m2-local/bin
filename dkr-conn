@@ -9,4 +9,4 @@ fi
 
 # TODO Make this smarter so we don't try to connect to an instance that doesn't exist or isn't running
 # @see dkr-run
-docker exec -u www-data -it $($(dirname "$0")/dkr-id) sh -c "cd /var/www && /bin/bash"
+./dkr-exec /bin/bash

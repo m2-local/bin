@@ -6,4 +6,4 @@
 cfg.parser $(dirname "$0")/../dkr-config.ini
 
 cfg.section.docker
-$(dirname "$0")/dkr-exec /var/www/bin/env/"$1".sh "$@"
+$(dirname "$0")/dkr-exec /var/www/bin/env/"$1" "$@"

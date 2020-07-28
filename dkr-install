@@ -30,19 +30,22 @@ backend_frontname="$backend_frontname"
 
 # Get the composer username and password
 # @note this might not be needed for all projects...
+echo "Enter composer user: "
 read composer_user
+echo "Enter composer pass: "
 read composer_pass
 
 bin/dkr-exec composer global config http-basic.repo.magento.com "$composer_user" "$composer_pass"
 
 # Install the Docker image
-. $(dirname "$0")/dkr-pull
+. $(dirname "$0")/dkr-run
 
 # Prep the filesystem
 mkdir mysql
 mkdir exports
 
 # Prepare for usage
+bin/dkr-exec -it composer install
 bin/dkr-exec npm install
 bin/dkr-exec bin/magento module:enable --all
 bin/dkr-env load-new-db.sh

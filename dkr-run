@@ -82,7 +82,7 @@ if [ $? -eq 0 ]; then
 else
     # container does not exist yet, create it using docker run
     echo "creating container"
-    docker run \
+    docker run -d \
     -e "dkr_image=$dkr_image" \
     -e "dkr_version=$dkr_version" \
     -e "dkr_sata_mount=$dkr_sata_mount" \

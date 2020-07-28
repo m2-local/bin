@@ -1,0 +1,65 @@
+#!/bin/bash
+. $(dirname "$0")/ini-parser.sh
+cfg.parser $(dirname "$0")/../dkr-config.ini
+cfg.section.project
+project_domain="$domain"
+use_https="$use_https"
+
+project_url="http://$domain/"
+if [ "$use_https" == "1" ]; then
+    project_url="https://$domain/"
+fi
+
+cfg.section.docker
+mysql_db="$mysql_db"
+mysql_host="$mysql_host"
+mysql_user="$mysql_user"
+mysql_pass="$mysql_pw"
+
+cfg.section.magento
+admin_firstname="$admin_firstname"
+admin_lastname="$admin_lastname"
+admin_email="$admin_email"
+admin_password="$admin_password"
+admin_user="$admin_user"
+language="$language"
+currency="$currency"
+timezone="$timezone"
+use_rewrites="$use_rewrites"
+backend_frontname="$backend_frontname"
+
+# Get the composer username and password
+# @note this might not be needed for all projects...
+read composer_user
+read composer_pass
+
+bin/dkr-exec composer global config http-basic.repo.magento.com "$composer_user" "$composer_pass"
+
+# Install the Docker image
+. $(dirname "$0")/dkr-pull
+
+# Prep the filesystem
+mkdir mysql
+mkdir exports
+
+# Prepare for usage
+bin/dkr-exec npm install
+bin/dkr-exec bin/magento module:enable --all
+bin/dkr-env load-new-db.sh
+
+php bin/magento setup:install 
+--base-url="$project_url" 
+--db-host="$mysql_host"
+--db-name="$mysql_db" 
+--db-user="$mysql_user" 
+--db-password="$mysql_pw" 
+--admin-firstname="$admin_firstname" 
+--admin-lastname="$admin_lastname" 
+--admin-email="$admin_email" 
+--admin-user="$admin_user" 
+--admin-password="$admin_username" 
+--language="$language" 
+--currency="$currency"
+--timezone="$timezone" 
+--use-rewrites="$use_rewrites" 
+--backend-frontname="$backend_frontname"

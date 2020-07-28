@@ -6,6 +6,8 @@ cfg.section.network
 # Check for -c flag to create docker network
 echo "$@" | grep '\-c' &> /dev/null
 if [ $? -eq 0 ]; then
+    # TODO Check if network already exists
+
     echo "Creating docker network $name"
     docker network create \
     --driver="$driver" \
@@ -20,6 +22,6 @@ if [ $? -eq 0 ]; then
     echo "Removing docker network $name"
     docker network rm "$name"
 else
-    echo "Please pass either -p or -rm flag"
+    echo "Please pass either -c or -rm flag"
     exit 1
 fi

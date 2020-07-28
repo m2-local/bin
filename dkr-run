@@ -135,9 +135,8 @@ else
     -e "MYSQL_ADMIN_PASS=$dkr_mysql_pw" \
     -e "DOMAIN_NAME=$domain_name" \
     -e "UPSTREAM_DOMAIN_NAME=$upstream_domain_name" \
-    -p "$network_http_port" -p "$network_https_port" \
-    --net "$network_name" \
-    --ip "$network_ip" \
-    --name "$project_name" \
+    -p "$network_ip:$network_http_port:$network_http_port" \
+    -p "$network_ip:$network_https_port:$network_https_port" \
+    --name "$project_name:$dkr_version" \
     -v "${PWD}":/var/www "${image}:${version}"
 fi

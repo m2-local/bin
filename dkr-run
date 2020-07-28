@@ -60,6 +60,11 @@ magento_backend_frontname="$backend_frontname"
 
 # load the network section
 cfg.section.network
+network_subnet="$subnet"
+network_gateway="$gateway"
+network_ip="$ip"
+network_name="$name"
+network_driver="$driver"
 network_http_port="$http_port"
 network_https_port="$https_port"
 network_mysql_port="$mysql_port"
@@ -117,6 +122,11 @@ else
     -e "magento_timezone=$magento_timezone" \
     -e "magento_use_rewrites=$magento_use_rewrites" \
     -e "magento_backend_frontname=$magento_backend_frontname" \
+    -e "network_subnet=$network_subnet" \
+    -e "network_gateway=$network_gateway" \
+    -e "network_ip=$network_ip" \
+    -e "network_name=$network_name" \
+    -e "network_driver=$network_driver" \
     -e "network_http_port=$network_http_port" \
     -e "network_https_port=$network_https_port" \
     -e "network_mysql_port=$network_mysql_port" \
@@ -126,6 +136,8 @@ else
     -e "DOMAIN_NAME=$domain_name" \
     -e "UPSTREAM_DOMAIN_NAME=$upstream_domain_name" \
     -p "$network_http_port:80" -p "$network_https_port:443" \
+    --net "$network_name" \
+    --ip "$network_ip" \
     --name "$project_name" \
     -v "${PWD}":/var/www "${image}:${version}"
 fi

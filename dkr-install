@@ -28,6 +28,9 @@ timezone="$timezone"
 use_rewrites="$use_rewrites"
 backend_frontname="$backend_frontname"
 
+# Create the docker network
+bin/dkr-net -c
+
 # Get the composer username and password
 # @note this might not be needed for all projects...
 #bin/dkr-exec composer global config http-basic.repo.magento.com
@@ -43,8 +46,9 @@ mkdir exports
 bin/dkr-exec -it composer install
 bin/dkr-exec npm install
 bin/dkr-exec bin/magento module:enable --all
-bin/dkr-env load-new-db.sh
+bin/dkr-env create-new-db.sh
 
+echo "Installing Magento"
 bin/dkr-exec bin/magento setup:install \
 --base-url="$project_url" \
 --db-host="$mysql_host" \

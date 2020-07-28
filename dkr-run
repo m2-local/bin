@@ -14,11 +14,8 @@ dkr_image="$image"
 dkr_version="$version"
 dkr_sata_mount="$sata_mount"
 dkr_ssd_mount="$ssd_mount"
-dkr_mysql_db="$mysql_db"
-dkr_mysql_pw="$mysql_pw"
-dkr_mysql_user="$mysql_user"
-dkr_apache_root="$apache_root"
 
+# XXX This is currently unused, it would be needed for the cloud install....
 if [ "$sata_vol" == 'pwd' ]; then
     dkr_sata_vol="$(pwd)"
 else
@@ -30,11 +27,11 @@ else
     dkr_ssd_vol="$ssd_vol"
 fi
 
-#-----------------------------------------------
-# load the magento section
-#-----------------------------------------------
-cfg.section.magento
-magento_repository="$repository"
+dkr_apache_root="$apache_root"
+dkr_mysql_db="$mysql_db"
+dkr_mysql_user="$mysql_user"
+dkr_mysql_pw="$mysql_pw"
+dkr_mysql_host="$mysql_host"
 
 #-----------------------------------------------
 # load the project section
@@ -43,6 +40,23 @@ cfg.section.project
 project_name="$name"
 domain_name="$domain"
 upstream_domain_name="$upstream_domain"
+project_use_https="$use_https"
+
+#-----------------------------------------------
+# load the magento section
+#-----------------------------------------------
+cfg.section.magento
+magento_repository="$repository"
+magento_admin_firstname="$admin_firstname"
+magento_admin_lastname="$admin_lastname"
+magento_admin_email="$admin_email"
+magento_admin_password="$admin_password"
+magento_admin_username="$admin_username"
+magento_language="$language"
+magento_currency="$currency"
+magento_timezone="$timezone"
+magento_use_rewrites="$use_rewrites"
+magento_backend_frontname="$backend_frontname"
 
 # load the network section
 cfg.section.network
@@ -78,6 +92,34 @@ else
     -e "dkr_mysql_db=$dkr_mysql_db" \
     -e "dkr_mysql_pw=$dkr_mysql_pw" \
     -e "dkr_mysql_user=$dkr_mysql_user" \
+    -e "dkr_mysql_host=$dkr_mysql_host" \
+    -e "docker_image=$docker_image" \
+    -e "docker_version=$docker_version" \
+    -e "docker_sata_mount=$docker_sata_mount" \
+    -e "docker_ssd_mount=$docker_ssd_mount" \
+    -e "docker_sata_vol=$docker_sata_vol" \
+    -e "docker_ssd_vol=$docker_ssd_vol" \
+    -e "docker_mysql_db=$docker_mysql_db" \
+    -e "docker_mysql_pw=$docker_mysql_pw" \
+    -e "docker_mysql_user=$docker_mysql_user" \
+    -e "docker_mysql_host=$docker_mysql_host" \
+    -e "project_name=$project_name" \
+    -e "project_domain=$domain_name" \
+    -e "project_upstream_domain=$upstream_domain_name" \
+    -e "project_use_https=$project_use_https" \
+    -e "magento_repository=$magento_repository" \
+    -e "magento_admin_firstname=$magento_admin_firstname" \
+    -e "magento_admin_lastname=$magento_admin_lastname" \
+    -e "magento_admin_email=$magento_admin_email" \
+    -e "magento_admin_password=$magento_admin_email" \
+    -e "magento_language=$magento_language" \
+    -e "magento_currency=$magento_currency" \
+    -e "magento_timezone=$magento_timezone" \
+    -e "magento_use_rewrites=$magento_use_rewrites" \
+    -e "magento_backend_frontname=$magento_backend_frontname" \
+    -e "network_http_port=$network_http_port" \
+    -e "network_https_port=$network_https_port" \
+    -e "network_mysql_port=$network_mysql_port" \
     -e "dkr_apache_root=$dkr_apache_root" \
     -e "magento_repo=$magento_repository" \
     -e "MYSQL_ADMIN_PASS=$dkr_mysql_pw" \

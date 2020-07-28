@@ -30,12 +30,7 @@ backend_frontname="$backend_frontname"
 
 # Get the composer username and password
 # @note this might not be needed for all projects...
-echo "Enter composer user: "
-read composer_user
-echo "Enter composer pass: "
-read composer_pass
-
-bin/dkr-exec composer global config http-basic.repo.magento.com "$composer_user" "$composer_pass"
+#bin/dkr-exec composer global config http-basic.repo.magento.com
 
 # Install the Docker image
 . $(dirname "$0")/dkr-run
@@ -50,19 +45,19 @@ bin/dkr-exec npm install
 bin/dkr-exec bin/magento module:enable --all
 bin/dkr-env load-new-db.sh
 
-php bin/magento setup:install 
---base-url="$project_url" 
---db-host="$mysql_host"
---db-name="$mysql_db" 
---db-user="$mysql_user" 
---db-password="$mysql_pw" 
---admin-firstname="$admin_firstname" 
---admin-lastname="$admin_lastname" 
---admin-email="$admin_email" 
---admin-user="$admin_user" 
---admin-password="$admin_username" 
---language="$language" 
---currency="$currency"
---timezone="$timezone" 
---use-rewrites="$use_rewrites" 
+bin/dkr-exec bin/magento setup:install \
+--base-url="$project_url" \
+--db-host="$mysql_host" \
+--db-name="$mysql_db" \
+--db-user="$mysql_user" \
+--db-password="$mysql_pw" \
+--admin-firstname="$admin_firstname" \
+--admin-lastname="$admin_lastname" \
+--admin-email="$admin_email" \
+--admin-user="$admin_user" \
+--admin-password="$admin_password" \
+--language="$language" \
+--currency="$currency" \
+--timezone="$timezone" \
+--use-rewrites="$use_rewrites" \
 --backend-frontname="$backend_frontname"

@@ -1,0 +1,25 @@
+#!/bin/bash
+. $(dirname "$0")/ini-parser.sh
+cfg.parser $(dirname "$0")/../dkr-config.ini
+cfg.section.network
+
+# Check for -c flag to create docker network
+echo "$@" | grep '\-c' &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "Creating docker network $name"
+    docker network create \
+    --driver="$driver" \
+    --subnet="$subnet" \
+    --gateway="$gateway" \
+    "$name"
+fi
+
+# Check for -rm flag to remove docker network
+echo "$@" | grep '\-rm' &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "Removing docker network $name"
+    docker network rm "$name"
+fi
+
+echo "Please pass either -p or -rm flag"
+exit 1

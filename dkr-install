@@ -9,7 +9,7 @@
 . $(dirname "$0")/dkr-run
 
 # Prep the filesystem
-if [ !-d exports ]; then
+if [ ! -d exports ]; then
     mkdir exports
 fi
 

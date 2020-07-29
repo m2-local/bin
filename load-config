@@ -36,11 +36,6 @@ project_domain="$domain"
 project_upstream_domain="$upstream_domain"
 project_use_https="$use_https"
 
-project_url="http://$domain/"
-if [ "$use_https" == "1" ]; then
-    project_url="https://$domain/"
-fi
-
 #-----------------------------------------------
 # load the project section
 #-----------------------------------------------
@@ -70,3 +65,12 @@ network_driver="$driver"
 network_http_port="$http_port"
 network_https_port="$https_port"
 network_mysql_port="$mysql_port"
+
+#-----------------------------------------------
+# Derivative config values
+#-----------------------------------------------
+project_fullname="${project_name}_${docker_version}"
+project_url="http://$domain/"
+if [ "$use_https" == "1" ]; then
+    project_url="https://$domain/"
+fi

@@ -1,20 +1,18 @@
 #!/bin/bash
-# load the ini parser
-. $(dirname "$0")/ini-parser.sh
-
-cfg.parser $(dirname "$0")/../dkr-config.ini
-cfg.section.project
+# dkr-id [-a]
+# Get the id of the currently configured container
+# The -a flag will search for currently stopped containers
+# The script returns 1 if the container is not found
+. $(dirname "$0")/load-config
 
 # determine if -a flag should be passed to docker ps
 echo "$@" | grep '\-a' &> /dev/null
 
 # return 1 if the container is not found
-# TODO See the note in dkr-conn, in order to support that,
-#      this script should support a flag to indicate wheter all containers should be listed or only running ones
 if [ $? -eq 0 ]; then
-    container_id=$(docker ps -a -f name="$name" | tail -n 1 | awk '{ print $1 }')
+    container_id=$(docker ps -a -f name="$project_fullname" | tail -n 1 | awk '{ print $1 }')
 else
-    container_id=$(docker ps -f name="$name" | tail -n 1 | awk '{ print $1 }')
+    container_id=$(docker ps -f name="$project_fullname" | tail -n 1 | awk '{ print $1 }')
 fi
 if [ "$container_id" == "CONTAINER" ]; then
     exit 1

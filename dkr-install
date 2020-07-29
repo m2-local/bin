@@ -43,7 +43,7 @@ bin/dkr-exec bin/magento setup:install \
 --cache-backend="$magento_cache_backend" \
 --cache-backend-redis-server="$docker_redis_host" \
 --cache-backend-redis-port="$docker_redis_port" \
---cache-backend-db="$redis_cache_db" \
+--cache-backend-redis-db="$redis_cache_db" \
 --page-cache="$magento_page_cache" \
 --page-cache-redis-server="$docker_redis_host" \
 --page-cache-redis-port="$docker_redis_port" \

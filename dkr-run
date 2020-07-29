@@ -85,6 +85,9 @@ else
     -e "UPSTREAM_DOMAIN_NAME=$upstream_domain_name" \
     -p "$network_ip:$network_http_port:$network_http_port" \
     -p "$network_ip:$network_https_port:$network_https_port" \
+    -p "$network_ip:$network_mysql_port:$network_mysql_port" \
+    -p "$network_ip:9000:9000" \
+    -p "$network_ip:35729:35729" \
     --name "$project_fullname" \
     -v "${PWD}":/var/www "${image}:${version}"
 fi

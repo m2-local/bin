@@ -1,67 +1,52 @@
 #!/bin/bash
-. $(dirname "$0")/ini-parser.sh
-cfg.parser $(dirname "$0")/../dkr-config.ini
-cfg.section.project
-project_domain="$domain"
-use_https="$use_https"
-
-project_url="http://$domain/"
-if [ "$use_https" == "1" ]; then
-    project_url="https://$domain/"
-fi
-
-cfg.section.docker
-mysql_db="$mysql_db"
-mysql_host="$mysql_host"
-mysql_user="$mysql_user"
-mysql_pass="$mysql_pw"
-
-cfg.section.magento
-admin_firstname="$admin_firstname"
-admin_lastname="$admin_lastname"
-admin_email="$admin_email"
-admin_password="$admin_password"
-admin_user="$admin_user"
-language="$language"
-currency="$currency"
-timezone="$timezone"
-use_rewrites="$use_rewrites"
-backend_frontname="$backend_frontname"
+. $(dirname "$0")/load-config
 
 # Create the docker network
-bin/dkr-net -c
-
-# Get the composer username and password
-# @note this might not be needed for all projects...
-#bin/dkr-exec composer global config http-basic.repo.magento.com
+# XXX Not needeggd at this time...
+# bin/dkr-net -c
 
 # Install the Docker image
 . $(dirname "$0")/dkr-run
 
 # Prep the filesystem
-mkdir mysql
-mkdir exports
+if [ !-d exports ]; then
+    mkdir exports
+fi
 
 # Prepare for usage
+# Notes on live-reload installation: https://magento.stackexchange.com/questions/219265/livereload-configuration-via-grunt
 bin/dkr-exec -it composer install
 bin/dkr-exec npm install
-bin/dkr-exec bin/magento module:enable --all
+bin/dkr-exec npm install -g grunt-cli
+bin/dkr-exec npm install -g livereload
 bin/dkr-env create-new-db.sh
 
 echo "Installing Magento"
 bin/dkr-exec bin/magento setup:install \
 --base-url="$project_url" \
---db-host="$mysql_host" \
---db-name="$mysql_db" \
---db-user="$mysql_user" \
---db-password="$mysql_pw" \
---admin-firstname="$admin_firstname" \
---admin-lastname="$admin_lastname" \
---admin-email="$admin_email" \
---admin-user="$admin_user" \
---admin-password="$admin_password" \
---language="$language" \
---currency="$currency" \
---timezone="$timezone" \
---use-rewrites="$use_rewrites" \
---backend-frontname="$backend_frontname"
+--db-host="$docker_mysql_host" \
+--db-name="$docker_mysql_db" \
+--db-user="$docker_mysql_user" \
+--db-password="$docker_mysql_pw" \
+--admin-firstname="$magento_admin_firstname" \
+--admin-lastname="$magento_admin_lastname" \
+--admin-email="$magento_admin_email" \
+--admin-user="$magento_admin_user" \
+--admin-password="$magento_admin_password" \
+--language="$magento_language" \
+--currency="$magento_currency" \
+--timezone="$magento_timezone" \
+--use-rewrites="$magento_use_rewrites" \
+--backend-frontname="$magento_backend_frontname" \
+--session-save="$magento_session_save" \
+--session-save-redis-host="$docker_redis_host" \
+--session-save-redis-port="$docker_redis_port" \
+--session-save-redis-db="$docker_redis_session_db" \
+--cache-backend="$magento_cache_backend" \
+--cache-backend-redis-server="$docker_redis_host" \
+--cache-backend-redis-port="$docker_redis_port" \
+--cache-backend-db="$redis_cache_db" \
+--page-cache="$magento_page_cache" \
+--page-cache-redis-server="$docker_redis_host" \
+--page-cache-redis-port="$docker_redis_port" \
+--page-cache-redis-db="$docker_redis_page_cache_db"

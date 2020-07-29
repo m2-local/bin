@@ -2,72 +2,19 @@
 # launch the docker image with volume mapping to the code (yamaha directory)
 # and mysql directory.
 # TODO We need to map the media directory and other odds and ends
-. $(dirname "$0")/ini-parser.sh
-
-cfg.parser $(dirname "$0")/../dkr-config.ini
-
-#-----------------------------------------------
-# load the docker section
-#-----------------------------------------------
-cfg.section.docker
-dkr_image="$image"
-dkr_version="$version"
-dkr_sata_mount="$sata_mount"
-dkr_ssd_mount="$ssd_mount"
+. $(dirname "$0")/load-config
 
 # XXX This is currently unused, it would be needed for the cloud install....
-if [ "$sata_vol" == 'pwd' ]; then
-    dkr_sata_vol="$(pwd)"
+if [ "$docker_sata_vol" == 'pwd' ]; then
+    docker_sata_vol="$(pwd)"
 else
-    dkr_sata_vol="$sata_vol"
+    docker_sata_vol="$docker_sata_vol"
 fi
-if [ "$ssd_vol" == 'pwd' ]; then
-    dkr_ssd_vol="$(pwd)"
+if [ "$docker_ssd_vol" == 'pwd' ]; then
+    docker_ssd_vol="$(pwd)"
 else
-    dkr_ssd_vol="$ssd_vol"
+    docker_ssd_vol="$docker_ssd_vol"
 fi
-
-dkr_apache_root="$apache_root"
-dkr_mysql_db="$mysql_db"
-dkr_mysql_user="$mysql_user"
-dkr_mysql_pw="$mysql_pw"
-dkr_mysql_host="$mysql_host"
-
-#-----------------------------------------------
-# load the project section
-#-----------------------------------------------
-cfg.section.project
-project_name="$name"
-domain_name="$domain"
-upstream_domain_name="$upstream_domain"
-project_use_https="$use_https"
-
-#-----------------------------------------------
-# load the magento section
-#-----------------------------------------------
-cfg.section.magento
-magento_repository="$repository"
-magento_admin_firstname="$admin_firstname"
-magento_admin_lastname="$admin_lastname"
-magento_admin_email="$admin_email"
-magento_admin_password="$admin_password"
-magento_admin_user="$admin_user"
-magento_language="$language"
-magento_currency="$currency"
-magento_timezone="$timezone"
-magento_use_rewrites="$use_rewrites"
-magento_backend_frontname="$backend_frontname"
-
-# load the network section
-cfg.section.network
-network_subnet="$subnet"
-network_gateway="$gateway"
-network_ip="$ip"
-network_name="$name"
-network_driver="$driver"
-network_http_port="$http_port"
-network_https_port="$https_port"
-network_mysql_port="$mysql_port"
 
 # todo logic for SSL port
 # todo logic for mysql port
@@ -88,16 +35,16 @@ else
     # container does not exist yet, create it using docker run
     echo "creating container"
     docker run -d \
-    -e "dkr_image=$dkr_image" \
-    -e "dkr_version=$dkr_version" \
-    -e "dkr_sata_mount=$dkr_sata_mount" \
-    -e "dkr_ssd_mount=$dkr_ssd_mount" \
-    -e "dkr_sata_vol=$dkr_sata_vol" \
-    -e "dkr_ssd_vol=$dkr_ssd_vol" \
-    -e "dkr_mysql_db=$dkr_mysql_db" \
-    -e "dkr_mysql_pw=$dkr_mysql_pw" \
-    -e "dkr_mysql_user=$dkr_mysql_user" \
-    -e "dkr_mysql_host=$dkr_mysql_host" \
+    -e "dkr_image=$docker_image" \
+    -e "dkr_version=$docker_version" \
+    -e "dkr_sata_mount=$docker_sata_mount" \
+    -e "dkr_ssd_mount=$docker_ssd_mount" \
+    -e "dkr_sata_vol=$docker_sata_vol" \
+    -e "dkr_ssd_vol=$docker_ssd_vol" \
+    -e "dkr_mysql_db=$docker_mysql_db" \
+    -e "dkr_mysql_pw=$docker_mysql_pw" \
+    -e "dkr_mysql_user=$docker_mysql_user" \
+    -e "dkr_mysql_host=$docker_mysql_host" \
     -e "docker_image=$docker_image" \
     -e "docker_version=$docker_version" \
     -e "docker_sata_mount=$docker_sata_mount" \
@@ -110,7 +57,7 @@ else
     -e "docker_mysql_host=$docker_mysql_host" \
     -e "project_name=$project_name" \
     -e "project_domain=$domain_name" \
-    -e "project_upstream_domain=$upstream_domain_name" \
+    -e "project_upstream_domain=$project_upstream_domain" \
     -e "project_use_https=$project_use_https" \
     -e "magento_repository=$magento_repository" \
     -e "magento_admin_firstname=$magento_admin_firstname" \
@@ -122,6 +69,7 @@ else
     -e "magento_timezone=$magento_timezone" \
     -e "magento_use_rewrites=$magento_use_rewrites" \
     -e "magento_backend_frontname=$magento_backend_frontname" \
+    -e "magento_session_save=$magento_session_save" \
     -e "network_subnet=$network_subnet" \
     -e "network_gateway=$network_gateway" \
     -e "network_ip=$network_ip" \

@@ -1,0 +1,72 @@
+#!/bin/bash
+# Flatten the ini configuration
+
+. $(dirname "$0")/ini-parser.sh
+cfg.parser $(dirname "$0")/../dkr-config.ini
+
+#-----------------------------------------------
+# load the docker section
+#-----------------------------------------------
+cfg.section.docker
+docker_image="$image"
+docker_version="$version"
+docker_sata_mount="$sata_mount"
+docker_ssd_mount="$ssd_mount"
+docker_sata_vol="$sata_vol"
+docker_ssd_vol="$ssd_vol"
+docker_apache_root="$apache_root"
+docker_mysql_db="$mysql_db"
+docker_mysql_user="$mysql_user"
+docker_mysql_pw="$mysql_pw"
+docker_mysql_host="$mysql_host"
+docker_redis_host="$redis_host"
+docker_redis_port="$redis_port"
+docker_redis_cache_db="$redis_cache_db"
+docker_redis_page_cache_db="$redis_page_cache_db"
+docker_redis_session_db="$redis_session_db"
+docker_uid="$uid"
+docker_gid="$gid"
+
+#-----------------------------------------------
+# load the project section
+#-----------------------------------------------
+cfg.section.project
+project_name="$name"
+project_domain="$domain"
+project_upstream_domain="$upstream_domain"
+project_use_https="$use_https"
+
+project_url="http://$domain/"
+if [ "$use_https" == "1" ]; then
+    project_url="https://$domain/"
+fi
+
+#-----------------------------------------------
+# load the project section
+#-----------------------------------------------
+cfg.section.magento
+magento_repository="$repository"
+magento_admin_firstname="$admin_firstname"
+magento_admin_lastname="$admin_lastname"
+magento_admin_email="$admin_email"
+magento_admin_password="$admin_password"
+magento_admin_user="$admin_user"
+magento_language="$language"
+magento_currency="$currency"
+magento_timezone="$timezone"
+magento_use_rewrites="$use_rewrites"
+magento_backend_frontname="$backend_frontname"
+magento_session_save="$session_save"
+
+#-----------------------------------------------
+# load the network section
+#-----------------------------------------------
+cfg.section.network
+network_subnet="$subnet"
+network_gateway="$gateway"
+network_ip="$ip"
+network_name="$name"
+network_driver="$driver"
+network_http_port="$http_port"
+network_https_port="$https_port"
+network_mysql_port="$mysql_port"

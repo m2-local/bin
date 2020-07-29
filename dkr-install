@@ -17,8 +17,6 @@ fi
 # Notes on live-reload installation: https://magento.stackexchange.com/questions/219265/livereload-configuration-via-grunt
 bin/dkr-exec -it composer install
 bin/dkr-exec npm install
-bin/dkr-exec npm install -g grunt-cli
-bin/dkr-exec npm install -g livereload
 bin/dkr-env create-new-db.sh
 
 echo "Installing Magento"

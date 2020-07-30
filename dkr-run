@@ -78,9 +78,9 @@ else
     -e "network_http_port=$network_http_port" \
     -e "network_https_port=$network_https_port" \
     -e "network_mysql_port=$network_mysql_port" \
-    -e "dkr_apache_root=$dkr_apache_root" \
+    -e "docker_apache_root=$docker_apache_root" \
     -e "magento_repo=$magento_repository" \
-    -e "MYSQL_ADMIN_PASS=$dkr_mysql_pw" \
+    -e "MYSQL_ADMIN_PASS=$docker_mysql_pw" \
     -e "DOMAIN_NAME=$domain_name" \
     -e "UPSTREAM_DOMAIN_NAME=$upstream_domain_name" \
     -p "$network_ip:$network_http_port:$network_http_port" \

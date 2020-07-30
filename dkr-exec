@@ -1,4 +1,10 @@
 #!/bin/bash
+#-------------------------------------------------------------------------
+# Copyright (c) 2017 - Moxune LLC - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+# Written by Nathan Nobbe<nathan@moxune.com>
+#-------------------------------------------------------------------------
 container_id=$($(dirname "$0")/dkr-id)
 
 # TODO figure out how we can pass arbitrary param through here - there's some bash syntax for it...

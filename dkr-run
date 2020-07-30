@@ -1,4 +1,10 @@
 #!/bin/bash
+#-------------------------------------------------------------------------
+# Copyright (c) 2017 - Moxune LLC - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+# Written by Nathan Nobbe<nathan@moxune.com>
+#-------------------------------------------------------------------------
 # launch the docker image with volume mapping to the code (yamaha directory)
 # and mysql directory.
 # TODO We need to map the media directory and other odds and ends

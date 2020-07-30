@@ -53,7 +53,7 @@ magento_use_rewrites="$use_rewrites"
 magento_backend_frontname="$backend_frontname"
 magento_session_save="$session_save"
 magento_cache_backend="$cache_backend"
-magento_page_cache="$magento_page_cache"
+magento_page_cache="$page_cache"
 
 #-----------------------------------------------
 # load the network section

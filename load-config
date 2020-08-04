@@ -78,7 +78,7 @@ network_mysql_port="$mysql_port"
 # Derivative config values
 #-----------------------------------------------
 project_fullname="${project_name}_${docker_version}"
-project_url="http://$domain/"
+project_url="http://$project_domain/"
 if [ "$use_https" == "1" ]; then
-    project_url="https://$domain/"
+    project_url="https://$project_domain/"
 fi

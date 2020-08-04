@@ -62,7 +62,7 @@ else
     -e "docker_mysql_user=$docker_mysql_user" \
     -e "docker_mysql_host=$docker_mysql_host" \
     -e "project_name=$project_name" \
-    -e "project_domain=$domain_name" \
+    -e "project_domain=$project_domain" \
     -e "project_upstream_domain=$project_upstream_domain" \
     -e "project_use_https=$project_use_https" \
     -e "magento_repository=$magento_repository" \
@@ -92,7 +92,6 @@ else
     -p "$network_ip:$network_http_port:$network_http_port" \
     -p "$network_ip:$network_https_port:$network_https_port" \
     -p "$network_ip:$network_mysql_port:$network_mysql_port" \
-    -p "$network_ip:9000:9000" \
     -p "$network_ip:35729:35729" \
     --name "$project_fullname" \
     -v "${PWD}":/var/www "${image}:${version}"

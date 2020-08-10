@@ -22,6 +22,9 @@ else
     docker_ssd_vol="$docker_ssd_vol"
 fi
 
+uid=$(id -u)
+gid=$(id -g)
+
 # todo logic for SSL port
 # todo logic for mysql port
 
@@ -89,6 +92,8 @@ else
     -e "MYSQL_ADMIN_PASS=$docker_mysql_pw" \
     -e "DOMAIN_NAME=$domain_name" \
     -e "UPSTREAM_DOMAIN_NAME=$upstream_domain_name" \
+    -e "DOCKER_USER_ID=$uid" \
+    -e "DOCKER_USER_GID=$gid" \
     -p "$network_ip:$network_http_port:$network_http_port" \
     -p "$network_ip:$network_https_port:$network_https_port" \
     -p "$network_ip:$network_mysql_port:$network_mysql_port" \

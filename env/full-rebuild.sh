@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/magento && \
+cd ~ && \
 time composer install && \
 bin/magento setup:upgrade && \
 bin/magento setup:di:compile && \

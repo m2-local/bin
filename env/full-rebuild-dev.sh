@@ -7,4 +7,5 @@ rm -rf pub/static/frontend/* && bin/magento setup:static-content:deploy -f && bi
 grunt clean && \
 grunt exec && \
 grunt less && \
-bin/magento indexer:reindex
+bin/magento indexer:reindex && \
+bin/magento cache:disable layout block_html full_page
